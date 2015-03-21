@@ -7,7 +7,8 @@ var $ = require('gulp-load-plugins')({
 
 gulp.task('html', function() {
   return gulp.src(['src/*.html', 'src/**/*.html'])
-    .pipe(gulp.dest('.tmp'));
+    .pipe(gulp.dest('.tmp'))
+    .pipe($.connect.reload());
 });
 
 gulp.task('scripts', function() {
@@ -17,7 +18,8 @@ gulp.task('scripts', function() {
     .pipe($.sourcemaps.write())
     .pipe($.ngAnnotate())
     .pipe($.wrap('(function(){\n<%= contents %>\n})();'))
-    .pipe(gulp.dest('.tmp'));
+    .pipe(gulp.dest('.tmp'))
+    .pipe($.connect.reload());
 });
 
 gulp.task('styles', function() {
@@ -25,7 +27,15 @@ gulp.task('styles', function() {
     .pipe($.sourcemaps.init())
     .pipe($.sass())
     .pipe($.sourcemaps.write())
-    .pipe(gulp.dest('.tmp'));
+    .pipe($.concat('styles.css'))
+    .pipe(gulp.dest('.tmp'))
+    .pipe($.connect.reload());
+});
+
+gulp.task('watch', function() {
+  gulp.watch(['src/**/*.html'], ['html']);
+  gulp.watch(['src/**/*.js'], ['scripts']);
+  gulp.watch(['src/**/*.scss'], ['styles']);
 });
 
 gulp.task('connect', function() {
@@ -36,7 +46,7 @@ gulp.task('connect', function() {
 });
 
 gulp.task('dist', ['styles', 'scripts', 'html'], function() {
-  gulp.src('.tmp/**/*.css')
+  gulp.src('.tmp/*.css')
     .pipe($.concat('component.css'))
     .pipe(gulp.dest('dist'));
 
@@ -55,3 +65,5 @@ gulp.task('dist', ['styles', 'scripts', 'html'], function() {
     .pipe($.concat('component.js'))
     .pipe(gulp.dest('dist'));
 });
+
+gulp.task('default', ['styles', 'scripts', 'html', 'connect', 'watch']);
