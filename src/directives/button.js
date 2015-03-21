@@ -1,10 +1,10 @@
 angular
-  .module('component')
+  .module('component', [])
   .directive('cButton', Button);
 
 function Button($window) {
   return {
-    restrict: 'A',
+    restrict: 'EA',
     templateUrl: 'directives/button.html'
   };
 }

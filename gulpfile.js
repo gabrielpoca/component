@@ -30,7 +30,7 @@ gulp.task('styles', function() {
 
 gulp.task('connect', function() {
   $.connect.server({
-    root: ['.tmp'],
+    root: ['.tmp', 'lib'],
     livereload: true
   });
 });
