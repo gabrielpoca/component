@@ -6,7 +6,10 @@ var $ = require('gulp-load-plugins')({
 });
 
 gulp.task('html', function() {
+  var sources = gulp.src('src/**/*.js', {read: false});
+
   return gulp.src(['src/*.html', 'src/**/*.html'])
+    .pipe($.inject(sources, { relative: true }))
     .pipe(gulp.dest('.tmp'))
     .pipe($.connect.reload());
 });

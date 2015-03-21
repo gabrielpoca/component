@@ -1,5 +1,7 @@
-.Button:hover {
-  background-color: blue; }
+.Button {
+  color: red; }
+  .Button:hover {
+    color: blue; }
 
 
-/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRpcmVjdGl2ZXMvYnV0dG9uLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQ0EsQUFBTztFQUNILEFBQWtCIiwiZmlsZSI6ImRpcmVjdGl2ZXMvYnV0dG9uLmNzcyIsInNvdXJjZXNDb250ZW50IjpbIi5CdXR0b24ge1xuICAmOmhvdmVyIHtcbiAgICBiYWNrZ3JvdW5kLWNvbG9yOiBibHVlO1xuICB9XG59XG4iXSwic291cmNlUm9vdCI6Ii9zb3VyY2UvIn0= */
+/*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbImRpcmVjdGl2ZXMvYnV0dG9uLnNjc3MiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUE7RUFDRSxBQUFPO0VBQ1QsQUFBTztJQUNILEFBQU8iLCJmaWxlIjoiZGlyZWN0aXZlcy9idXR0b24uY3NzIiwic291cmNlc0NvbnRlbnQiOlsiLkJ1dHRvbiB7XG4gIGNvbG9yOiByZWQ7XG4gICY6aG92ZXIge1xuICAgIGNvbG9yOiBibHVlO1xuICB9XG59XG4iXSwic291cmNlUm9vdCI6Ii9zb3VyY2UvIn0= */
