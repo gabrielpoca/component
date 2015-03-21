@@ -1,3 +1,15 @@
+var basePaths = {
+  src: 'src/',
+  dest: 'dist/',
+  tmp: '.tmp/'
+};
+
+var appFiles = {
+  scripts: basePaths.src + '**/*.js',
+  styles: basePaths.src + '**/*.scss',
+  templates: basePaths.src + '**/*.html'
+};
+
 var gulp = require('gulp');
 var eventStream = require('event-stream');
 
@@ -6,44 +18,44 @@ var $ = require('gulp-load-plugins')({
 });
 
 gulp.task('html', function() {
-  var sources = gulp.src('src/**/*.js', {read: false});
+  var sources = gulp.src(appFiles.scripts, {read: false});
 
-  return gulp.src(['src/*.html', 'src/**/*.html'])
+  return gulp.src([appFiles.templates].concat(['src/index.html']))
     .pipe($.inject(sources, { relative: true }))
-    .pipe(gulp.dest('.tmp'))
+    .pipe(gulp.dest(basePaths.tmp))
     .pipe($.connect.reload());
 });
 
 gulp.task('scripts', function() {
-  return gulp.src('src/**/*.js')
+  return gulp.src(appFiles.scripts)
     .pipe($.sourcemaps.init())
     .pipe($.babel())
     .pipe($.sourcemaps.write())
     .pipe($.ngAnnotate())
     .pipe($.wrap('(function(){\n<%= contents %>\n})();'))
-    .pipe(gulp.dest('.tmp'))
+    .pipe(gulp.dest(basePaths.tmp))
     .pipe($.connect.reload());
 });
 
 gulp.task('styles', function() {
-  return gulp.src('src/**/*.scss')
+  return gulp.src(appFiles.styles)
     .pipe($.sourcemaps.init())
     .pipe($.sass())
     .pipe($.sourcemaps.write())
     .pipe($.concat('styles.css'))
-    .pipe(gulp.dest('.tmp'))
+    .pipe(gulp.dest(basePaths.tmp))
     .pipe($.connect.reload());
 });
 
 gulp.task('watch', function() {
-  gulp.watch(['src/**/*.html'], ['html']);
-  gulp.watch(['src/**/*.js'], ['scripts']);
-  gulp.watch(['src/**/*.scss'], ['styles']);
+  gulp.watch([appFiles.templates], ['html']);
+  gulp.watch([appFiles.scripts], ['scripts']);
+  gulp.watch([appFiles.styles], ['styles']);
 });
 
 gulp.task('connect', function() {
   $.connect.server({
-    root: ['.tmp', 'lib'],
+    root: [basePaths.tmp, 'lib'],
     livereload: true
   });
 });

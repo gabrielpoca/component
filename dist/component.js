@@ -6,7 +6,7 @@ try {
 }
 module.run(['$templateCache', function($templateCache) {
   $templateCache.put('index.html',
-    '<html ng-app="component"><head><script src="angular/angular.min.js"></script><script src="directives/button.js"></script><link rel="stylesheet" type="text/css" href="styles.css"></head><body><h1>Testing</h1><c-button></c-button><script src="directives/button.js"></script></body></html>');
+    '<html ng-app="component"><head><link rel="stylesheet" type="text/css" href="styles.css"></head><body><h1>Testing</h1><c-button></c-button><script src="angular/angular.min.js"></script><script src="directives/button.js"></script></body></html>');
 }]);
 })();
 
