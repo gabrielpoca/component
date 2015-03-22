@@ -1,4 +1,4 @@
-gpComponetize
+gabrielpoca:component
 ============
 
 
@@ -16,9 +16,13 @@ A component is a auto sufficient element that can live anywhere, never knowing w
 
 ## Install
 
-```npm install``
+```
+npm install
+```
 
-```bower install```
+```
+bower install
+```
 
 ### Tasks
 
