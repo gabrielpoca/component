@@ -1,5 +1,5 @@
 {
-  "name": "gabrielpoca:component",
+  "name": "",
   "version": "0.0.1",
   "description": "",
   "scripts": {
@@ -11,6 +11,7 @@
   "devDependencies": {
     "event-stream": "^3.3.0",
     "gulp": "^3.8.11",
+    "gulp-autoprefixer": "^2.1.0",
     "gulp-babel": "^4.0.0",
     "gulp-concat": "^2.5.2",
     "gulp-connect": "^2.2.0",

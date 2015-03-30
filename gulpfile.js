@@ -43,6 +43,10 @@ gulp.task('styles', function() {
     .pipe($.sass())
     .pipe($.sourcemaps.write())
     .pipe($.concat('styles.css'))
+    .pipe($.autoprefixer({
+      browsers: ['last 2 versions'],
+      cascade: false
+    }))
     .pipe(gulp.dest(basePaths.tmp))
     .pipe($.connect.reload());
 });
