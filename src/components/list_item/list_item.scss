@@ -1,0 +1,52 @@
+$height: 40px;
+$image-size: 30px;
+
+.ListItem {
+  height: $height;
+  position: relative;
+  width: 100%;
+}
+
+.ListItem-baseLayer,
+.ListItem-optionsLayer {
+  border-radius: $height / 2;
+  height: $height;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.ListItem-baseLayer {
+  align-items: center;
+  background-color: #2CBFD3;
+  box-sizing: border-box;
+  color: white;
+  display: flex;
+  padding: 0 $height / 3;
+
+  .ListItem-image {
+    border-radius: 50%;
+    display: inline-block;
+    height: $image-size;
+    width: $image-size;
+  }
+
+  .ListItem-details {
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    padding-left: 10px;
+    width: calc(100% - #{$image-size});
+  }
+}
+
+.ListItem-optionsLayer {
+  align-items: center;
+  background-color: red;
+  box-sizing: border-box;
+  color: white;
+  display: flex;
+  flex-direction: row-reverse;
+  padding: 0 $height / 3;
+}
