@@ -6,13 +6,14 @@
   </head>
   <body>
 
-    <list-item
-      img="https://pbs.twimg.com/profile_images/437683020003561474/Z5_SkyHh.jpeg"
-      description="Paid for gas"
-      >
-    </list-item>
+    <ti-header-layout>
+      <div ng-controller="TripsCtrl as ctrl">
+        <ti-trips-list list="ctrl.trips"></ti-trips-list>
+      </div>
+    </ti-header-layout>
 
     <script src="angular/angular.min.js"></script>
+
     <!-- inject:js -->
     <!-- endinject -->
   </body>

@@ -1,6 +1,6 @@
 angular
   .module('component')
-  .directive('listItem', ListItem)
+  .directive('tiListItem', ListItem)
   .controller('ListItemCtrl', ListItemCtrl);
 
 function ListItem() {
@@ -16,17 +16,14 @@ function ListItem() {
   };
 }
 
-function ListItemCtrl(Interaction, Prefix, $element, $attrs, $window) {
-  var ctrl = this,
-      el = $element.children().children()[1];
-
-  ctrl.description = $attrs.description;
-  ctrl.img = $attrs.img;
+function ListItemCtrl(Interaction, Prefix, $element, $attrs) {
+  var ctrl = this;
 
   var dif,
       offset,
+      el = $element.children().children()[1],
       closedOffset = 0,
-      openedOffset = -120,
+      openedOffset = -100,
       isOpen = false;
 
   $element.bind('touchstart', function(e) {
@@ -39,9 +36,9 @@ function ListItemCtrl(Interaction, Prefix, $element, $attrs, $window) {
     dif = e.touches[0].clientX - offset;
 
     if (isOpen)
-      move(dif + openedOffset);
+      moveWhenOpen(dif);
     else if (dif < 0)
-      move(dif);
+      moveWhenClosed(dif);
 
     Interaction.moving(true);
   });
@@ -55,10 +52,31 @@ function ListItemCtrl(Interaction, Prefix, $element, $attrs, $window) {
     Interaction.moving(false);
   });
 
+  function moveWhenOpen(dif) {
+    move(openedOffset + dif); 
+  }
+
+  function moveWhenClosed(dif) {
+    move(dif);
+  }
+
   function move(dif, transition = 0) {
+    dif = restrainMove(dif);
+
     el.style[Prefix + 'transition'] = `linear ${transition}s all`;
+    el.style.transition = `linear ${transition}s all`;
     el.style[Prefix + 'transform'] = `translate3d(${dif}px, 0, 0)`;
-    el.styletransform = `translate3d(${dif}px, 0, 0)`;
+    el.style.transform = `translate3d(${dif}px, 0, 0)`;
+  }
+
+  function restrainMove(dif) {
+    if (dif < openedOffset) {
+      return (dif - openedOffset) / 3 + openedOffset;
+    } else if (dif > 0) {
+      return 0;
+    } else {
+      return dif;
+    }
   }
 
   function makeOpen() {

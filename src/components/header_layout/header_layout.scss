@@ -1,0 +1,17 @@
+.HeaderLayout {
+  .HeaderLayout-header {
+    height: 50px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+
+  .HeaderLayout-content {
+    position: fixed;
+    width: 100%;
+    top: 70px;
+    left: 0;
+    height: calc(100% - 50px);
+  }
+}

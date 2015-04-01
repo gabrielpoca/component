@@ -1,0 +1,9 @@
+.TripsList {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+
+  .TripsList-item:not(:last-child) {
+    margin-bottom: 20px;
+  }
+}

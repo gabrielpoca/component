@@ -10,6 +10,8 @@ var appFiles = {
   templates: basePaths.src + '**/*.html'
 };
 
+var excludeFiles =  'styleguide/**.js';
+
 var gulp = require('gulp');
 var eventStream = require('event-stream');
 
@@ -65,12 +67,18 @@ gulp.task('connect', function() {
 });
 
 gulp.task('dist', ['styles', 'scripts', 'html'], function() {
+  var jsSources, jsExcluding, components, templates;
+
   gulp.src('.tmp/*.css')
     .pipe($.concat('component.css'))
     .pipe(gulp.dest('dist'));
 
-  var components = gulp.src('.tmp/**/*.js');
-  var templates = gulp.src('.tmp/**/*.html')
+  jsSources = basePaths.tmp + '**/*.js';
+  jsExcluding = '!' + basePaths.tmp + excludeFiles;
+
+  components = gulp.src([jsSources, jsExcluding]);
+
+  templates = gulp.src('.tmp/**/*.html')
     .pipe($.minifyHtml({
       empty: true,
       spare: true,
