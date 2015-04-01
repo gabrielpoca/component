@@ -2,6 +2,10 @@
   "name": "gabrielpoca:component",
   "version": "0.0.1",
   "license": "MIT",
+  "main": [
+    "./dist/component.js",
+    "./dist/component.css"
+  ],
   "ignore": [
     "**/.*",
     "node_modules",
