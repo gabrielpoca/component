@@ -4,10 +4,24 @@ var basePaths = {
   tmp: '.tmp/'
 };
 
+var distFolders = {
+  images: basePaths.dest + 'img',
+  styles: basePaths.dest,
+  scripts: basePaths.dest
+};
+
 var appFiles = {
   scripts: basePaths.src + '**/*.js',
   styles: basePaths.src + '**/*.scss',
+  images: basePaths.src + '**/*.{png,jpg,svg}',
   templates: basePaths.src + '**/*.html'
+};
+
+var tmpFiles = {
+  scripts: basePaths.tmp + '**/*.js',
+  styles: basePaths.tmp + '*.css',
+  images: basePaths.tmp + 'img/**.{png,jpg,svg}',
+  templates: basePaths.tmp + '**/*.html'
 };
 
 var excludeFiles =  'styleguide/**.js';
@@ -24,6 +38,12 @@ gulp.task('html', function() {
 
   return gulp.src([appFiles.templates].concat(['src/index.html']))
     .pipe($.inject(sources, { relative: true }))
+    .pipe(gulp.dest(basePaths.tmp))
+    .pipe($.connect.reload());
+});
+
+gulp.task('images', function() {
+  return gulp.src(appFiles.images)
     .pipe(gulp.dest(basePaths.tmp))
     .pipe($.connect.reload());
 });
@@ -66,19 +86,22 @@ gulp.task('connect', function() {
   });
 });
 
-gulp.task('dist', ['styles', 'scripts', 'html'], function() {
+gulp.task('dist', ['styles', 'scripts', 'images', 'html'], function() {
   var jsSources, jsExcluding, components, templates;
 
-  gulp.src('.tmp/*.css')
+  gulp.src(tmpFiles.styles)
     .pipe($.concat('component.css'))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest(distFolders.styles));
 
-  jsSources = basePaths.tmp + '**/*.js';
+  gulp.src(tmpFiles.images)
+    .pipe(gulp.dest(distFolders.images));
+
+  jsSources = tmpFiles.scripts;
   jsExcluding = '!' + basePaths.tmp + excludeFiles;
 
   components = gulp.src([jsSources, jsExcluding]);
 
-  templates = gulp.src('.tmp/**/*.html')
+  templates = gulp.src(tmpFiles.templates)
     .pipe($.minifyHtml({
       empty: true,
       spare: true,
@@ -90,7 +113,7 @@ gulp.task('dist', ['styles', 'scripts', 'html'], function() {
 
   return eventStream.merge(components, templates)
     .pipe($.concat('component.js'))
-    .pipe(gulp.dest('dist'));
+    .pipe(gulp.dest(distFolders.scripts));
 });
 
-gulp.task('default', ['styles', 'scripts', 'html', 'connect', 'watch']);
+gulp.task('default', ['styles', 'images', 'scripts', 'html', 'connect', 'watch']);
