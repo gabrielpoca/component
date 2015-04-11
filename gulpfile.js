@@ -1,10 +1,11 @@
 var basePaths = {
   src: 'src/',
   dest: 'dist/',
-  tmp: '.tmp/'
+  tmp: '.tmp/',
+  styleguide: 'styleguide/'
 };
 
-var distFolders = {
+var distFiles = {
   images: basePaths.dest + 'img',
   styles: basePaths.dest,
   scripts: basePaths.dest
@@ -24,14 +25,8 @@ var tmpFiles = {
   templates: basePaths.tmp + '**/*.html'
 };
 
-var excludeFiles =  'styleguide/**.js';
-
 var gulp = require('gulp');
 var eventStream = require('event-stream');
-var handleError = function (err) {
-  console.log(err.toString());
-  this.emit('end');
-};
 
 var $ = require('gulp-load-plugins')({
   camelize: true
@@ -46,38 +41,20 @@ gulp.task('html', function() {
     .pipe($.connect.reload());
 });
 
-gulp.task('images', function() {
-  return gulp.src(appFiles.images)
-    .pipe(gulp.dest(basePaths.tmp))
-    .pipe($.connect.reload());
-});
+gulp.task(
+  'images', 
+  require('./gulp/images')(gulp, $, appFiles.images, basePaths.tmp)
+);
 
-gulp.task('scripts', function() {
-  return gulp.src(appFiles.scripts)
-    .pipe($.sourcemaps.init())
-    .pipe($.babel())
-    .on('error', handleError)
-    .pipe($.sourcemaps.write())
-    .pipe($.ngAnnotate())
-    .pipe($.wrap('(function(){\n<%= contents %>\n})();'))
-    .pipe(gulp.dest(basePaths.tmp))
-    .pipe($.connect.reload());
-});
+gulp.task(
+  'scripts',
+  require('./gulp/scripts')(gulp, $, appFiles.scripts, basePaths.tmp)
+);
 
-gulp.task('styles', function() {
-  return gulp.src(appFiles.styles)
-    .pipe($.sourcemaps.init())
-    .pipe($.sass())
-    .on('error', handleError)
-    .pipe($.sourcemaps.write())
-    .pipe($.concat('styles.css'))
-    .pipe($.autoprefixer({
-      browsers: ['last 2 versions'],
-      cascade: false
-    }))
-    .pipe(gulp.dest(basePaths.tmp))
-    .pipe($.connect.reload());
-});
+gulp.task(
+  'styles',
+  require('./gulp/styles')(gulp, $, appFiles.styles, basePaths.tmp)
+);
 
 gulp.task('watch', function() {
   gulp.watch([appFiles.templates], ['html']);
@@ -87,25 +64,22 @@ gulp.task('watch', function() {
 
 gulp.task('connect', function() {
   $.connect.server({
-    root: [basePaths.tmp, 'lib'],
+    root: [basePaths.tmp, basePaths.styleguide, 'lib'],
     livereload: true
   });
 });
 
 gulp.task('dist', ['styles', 'scripts', 'images', 'html'], function() {
-  var jsSources, jsExcluding, components, templates;
+  var components, templates;
 
   gulp.src(tmpFiles.styles)
     .pipe($.concat('component.css'))
-    .pipe(gulp.dest(distFolders.styles));
+    .pipe(gulp.dest(distFiles.styles));
 
   gulp.src(tmpFiles.images)
-    .pipe(gulp.dest(distFolders.images));
+    .pipe(gulp.dest(distFiles.images));
 
-  jsSources = tmpFiles.scripts;
-  jsExcluding = '!' + basePaths.tmp + excludeFiles;
-
-  components = gulp.src([jsSources, jsExcluding]);
+  components = gulp.src(tmpFiles.scripts);
 
   templates = gulp.src(tmpFiles.templates)
     .pipe($.minifyHtml({
@@ -119,7 +93,7 @@ gulp.task('dist', ['styles', 'scripts', 'images', 'html'], function() {
 
   return eventStream.merge(components, templates)
     .pipe($.concat('component.js'))
-    .pipe(gulp.dest(distFolders.scripts));
+    .pipe(gulp.dest(distFiles.scripts));
 });
 
 gulp.task('default', ['styles', 'images', 'scripts', 'html', 'connect', 'watch']);
