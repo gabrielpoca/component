@@ -28,6 +28,10 @@ var excludeFiles =  'styleguide/**.js';
 
 var gulp = require('gulp');
 var eventStream = require('event-stream');
+var handleError = function (err) {
+  console.log(err.toString());
+  this.emit('end');
+};
 
 var $ = require('gulp-load-plugins')({
   camelize: true
@@ -52,6 +56,7 @@ gulp.task('scripts', function() {
   return gulp.src(appFiles.scripts)
     .pipe($.sourcemaps.init())
     .pipe($.babel())
+    .on('error', handleError)
     .pipe($.sourcemaps.write())
     .pipe($.ngAnnotate())
     .pipe($.wrap('(function(){\n<%= contents %>\n})();'))
@@ -63,6 +68,7 @@ gulp.task('styles', function() {
   return gulp.src(appFiles.styles)
     .pipe($.sourcemaps.init())
     .pipe($.sass())
+    .on('error', handleError)
     .pipe($.sourcemaps.write())
     .pipe($.concat('styles.css'))
     .pipe($.autoprefixer({
