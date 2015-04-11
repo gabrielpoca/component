@@ -10,13 +10,16 @@ function ListItem() {
     controller: 'ListItemCtrl as ctrl',
     bindToController: true,
     scope: {
+      id: '@',
       img: '@',
-      description: '@'
+      description: '@',
+      amount: '@',
+      clicked: '&'
     }
   };
 }
 
-function ListItemCtrl(Interaction, Prefix, $element, $attrs) {
+function ListItemCtrl(Interaction, Prefix, $element, $window) {
   var ctrl = this;
 
   var dif,
@@ -28,6 +31,7 @@ function ListItemCtrl(Interaction, Prefix, $element, $attrs) {
 
   $element.bind('touchstart', function(e) {
     offset = e.touches[0].pageX;
+    dif = 0;
   });
 
   $element.bind('touchmove', function(e) {
@@ -44,6 +48,9 @@ function ListItemCtrl(Interaction, Prefix, $element, $attrs) {
   });
 
   $element.bind('touchend', function() {
+    if (!isOpen && $window.Math.abs(dif) < 5)
+      return ctrl.clicked({id: ctrl.id});
+
     if (dif > openedOffset / 3)
       makeClosed();
     else
@@ -60,23 +67,28 @@ function ListItemCtrl(Interaction, Prefix, $element, $attrs) {
     move(dif);
   }
 
-  function move(dif, transition = 0) {
-    dif = restrainMove(dif);
-
+  function move(newDif, newTransition = 0) {
+    var { dif, transition } = parseMovement(newDif, newTransition);
     el.style[Prefix + 'transition'] = `linear ${transition}s all`;
     el.style.transition = `linear ${transition}s all`;
     el.style[Prefix + 'transform'] = `translate3d(${dif}px, 0, 0)`;
     el.style.transform = `translate3d(${dif}px, 0, 0)`;
   }
 
-  function restrainMove(dif) {
+  function parseMovement(dif, transition) {
     if (dif < openedOffset) {
-      return (dif - openedOffset) / 3 + openedOffset;
+      dif = (dif - openedOffset) / 3 + openedOffset;
     } else if (dif > 0) {
-      return 0;
+      dif = 0;
+      transition = 0.2;
     } else {
-      return dif;
+      dif = dif;
     }
+
+    return {
+      dif: dif,
+      transition: transition
+    };
   }
 
   function makeOpen() {

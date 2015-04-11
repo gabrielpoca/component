@@ -1,0 +1,47 @@
+.InputText {
+  $input-height: 40px;
+  $label-height: 30px;
+  $space: 1rem;
+
+  position: relative;
+  width: 100%;
+  height: $input-height + $label-height;
+  padding-top: $label-height;
+
+  .InputText-input {
+    background: none;
+    border: none;
+    border-bottom: solid 2px #2CBFD3;
+    border-radius: 0;
+    box-shadow: none;
+    height: $input-height;
+    padding-left: $space;
+    width: 100%;
+
+		&:focus,
+		&:active {
+      outline: none;
+      box-shadow: none;
+      background: none;
+		}
+  }
+
+  .InputText-label {
+    -webkit-transition: all 0.15s ease-out 0s;
+    color: #A8D7E1;
+    font-style: italic;
+    height: $label-height;
+    left: $space;
+    pointer-events: none;
+    position: absolute;
+    top: $label-height + $input-height / 4;
+    transition: all 0.15s ease-out 0s;
+  }
+
+  .InputText-input:focus + .InputText-label,
+  &.InputText--hasContent .InputText-label {
+    top: $input-height / 4;
+    font-size: 0.7em;
+  }
+}
+

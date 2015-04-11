@@ -8,6 +8,7 @@ function Interaction($window) {
 
   var scrollTimeout;
 
+  $window.document.addEventListener('touchmove', (e) => e.preventDefault(), false);
   $window.document.addEventListener('scroll', function() {
     if (!_moving) {
       $window.clearTimeout(scrollTimeout);

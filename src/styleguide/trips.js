@@ -8,11 +8,13 @@ function TripsCtrl() {
   ctrl.trips = [
     {
       description: 'RubyconfPT',
-      img: 'https://pbs.twimg.com/profile_images/437683020003561474/Z5_SkyHh.jpeg'
+      img: 'https://pbs.twimg.com/profile_images/437683020003561474/Z5_SkyHh.jpeg',
+      amount: '3.00'
     },
     {
       description: 'Codebits 2015',
-      img: 'https://pbs.twimg.com/profile_images/576109715039518720/W9ics_VG.png'
+      img: 'https://pbs.twimg.com/profile_images/576109715039518720/W9ics_VG.png',
+      amount: '3.00'
     },
     {
       description: 'Baruco 2013',

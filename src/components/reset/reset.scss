@@ -1,3 +1,29 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+  vertical-align: top;
+  padding: 0;
+  margin: 0;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  -webkit-font-smoothing: antialiased;
+}
+
+*:focus {
+  outline: 0;
+}
+
+input {
+  border-radius: 0;
+}
+
+button {
+  border: none;
+}
+
 html, body {
   font-family: 'Open Sans', sans-serif;
+  -wbkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  overflow: hidden;
 }

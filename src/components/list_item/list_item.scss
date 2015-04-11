@@ -20,7 +20,6 @@ $image-size: 30px;
 .ListItem-baseLayer {
   align-items: center;
   background-color: #2CBFD3;
-  box-sizing: border-box;
   color: white;
   display: flex;
   padding: 0 $height / 3;
@@ -44,7 +43,6 @@ $image-size: 30px;
 .ListItem-optionsLayer {
   align-items: center;
   background-color: red;
-  box-sizing: border-box;
   color: white;
   display: flex;
   flex-direction: row-reverse;
