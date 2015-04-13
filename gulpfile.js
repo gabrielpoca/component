@@ -19,6 +19,12 @@ var appFiles = {
   templates: paths.src + '**/*.html'
 };
 
+var styleguideFiles = {
+  scripts: paths.styleguide + '**/*.js',
+  templates: paths.styleguide + '**/*.html',
+  index: paths.styleguide + 'index.html'
+};
+
 var tmpFiles = {
   scripts: paths.tmp + '**/*.js',
   styles: paths.tmp + '*.css',
@@ -62,6 +68,12 @@ gulp.task('watch', function() {
   gulp.watch([appFiles.templates], ['html']);
   gulp.watch([appFiles.scripts], ['scripts']);
   gulp.watch([appFiles.styles], ['styles']);
+
+  gulp.watch([
+    styleguideFiles.scripts,
+    styleguideFiles.templates,
+    styleguideFiles.index
+  ], ['styleguide']);
 });
 
 gulp.task('connect', function() {

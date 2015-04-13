@@ -6,9 +6,6 @@ module.exports = function(gulp, $, appScripts, path, dest) {
   };
 
   var scriptsTask = require('./scripts')(gulp, $, files.scripts, dest);
-  var watchTask = function() {
-    gulp.watch([files.scripts, files.templates], styleguideTask);
-  };
 
   var styleguideTask = function() {
     var sources = gulp.src(appScripts, {read: false});
@@ -27,7 +24,6 @@ module.exports = function(gulp, $, appScripts, path, dest) {
       .pipe(gulp.dest(dest))
       .pipe($.connect.reload());
 
-    watchTask();
   };
 
   return styleguideTask;
