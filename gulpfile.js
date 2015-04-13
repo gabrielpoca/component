@@ -1,37 +1,4 @@
-var paths = {
-  src: 'src/',
-  dest: 'dist/',
-  tmp: '.tmp/',
-  tmpStyleguide: '.tmp.styleguide/',
-  styleguide: 'styleguide/'
-};
-
-var distFiles = {
-  images: paths.dest + 'img',
-  styles: paths.dest,
-  scripts: paths.dest
-};
-
-var appFiles = {
-  scripts: paths.src + '**/*.js',
-  styles: paths.src + '**/*.scss',
-  images: paths.src + '**/*.{png,jpg,svg}',
-  templates: paths.src + '**/*.html'
-};
-
-var styleguideFiles = {
-  scripts: paths.styleguide + '**/*.js',
-  templates: paths.styleguide + '**/*.html',
-  index: paths.styleguide + 'index.html'
-};
-
-var tmpFiles = {
-  scripts: paths.tmp + '**/*.js',
-  styles: paths.tmp + '*.css',
-  images: paths.tmp + 'img/**.{png,jpg,svg}',
-  templates: paths.tmp + '**/*.html'
-};
-
+var paths = require('./gulp/paths');
 var gulp = require('gulp');
 var eventStream = require('event-stream');
 
@@ -41,44 +8,44 @@ var $ = require('gulp-load-plugins')({
 
 gulp.task(
   'images', 
-  require('./gulp/images')(gulp, $, appFiles.images, paths.tmp)
+  require('./gulp/images')(gulp, $, paths.appFiles.images, paths.base.tmp)
 );
 
 gulp.task(
   'scripts',
-  require('./gulp/scripts')(gulp, $, appFiles.scripts, paths.tmp)
+  require('./gulp/scripts')(gulp, $, paths.appFiles.scripts, paths.base.tmp)
 );
 
 gulp.task(
   'styles',
-  require('./gulp/styles')(gulp, $, appFiles.styles, paths.tmp)
+  require('./gulp/styles')(gulp, $, paths.appFiles.styles, paths.base.tmp)
 );
 
 gulp.task(
   'html',
-  require('./gulp/html')(gulp, $, appFiles.templates, paths.tmp)
+  require('./gulp/html')(gulp, $, paths.appFiles.templates, paths.base.tmp)
 );
 
 gulp.task(
   'styleguide',
-  require('./gulp/styleguide')(gulp, $, appFiles.scripts, paths.styleguide, paths.tmpStyleguide)
+  require('./gulp/styleguide')(gulp, $)
 );
 
 gulp.task('watch', function() {
-  gulp.watch([appFiles.templates], ['html']);
-  gulp.watch([appFiles.scripts], ['scripts']);
-  gulp.watch([appFiles.styles], ['styles']);
+  gulp.watch([paths.appFiles.templates], ['html']);
+  gulp.watch([paths.appFiles.scripts], ['scripts']);
+  gulp.watch([paths.appFiles.styles], ['styles']);
 
   gulp.watch([
-    styleguideFiles.scripts,
-    styleguideFiles.templates,
-    styleguideFiles.index
+    paths.styleguideFiles.scripts,
+    paths.styleguideFiles.templates,
+    paths.styleguideFiles.index
   ], ['styleguide']);
 });
 
 gulp.task('connect', function() {
   $.connect.server({
-    root: [paths.tmp, paths.tmpStyleguide, 'lib'],
+    root: [paths.base.tmp, paths.base.tmpStyleguide, 'lib'],
     livereload: true
   });
 });
@@ -86,16 +53,16 @@ gulp.task('connect', function() {
 gulp.task('dist', ['styles', 'scripts', 'images', 'html'], function() {
   var components, templates;
 
-  gulp.src(tmpFiles.styles)
+  gulp.src(paths.tmpFiles.styles)
     .pipe($.concat('component.css'))
-    .pipe(gulp.dest(distFiles.styles));
+    .pipe(gulp.dest(path.distFiles.styles));
 
-  gulp.src(tmpFiles.images)
-    .pipe(gulp.dest(distFiles.images));
+  gulp.src(paths.tmpFiles.images)
+    .pipe(gulp.dest(path.distFiles.images));
 
-  components = gulp.src(tmpFiles.scripts);
+  components = gulp.src(paths.tmpFiles.scripts);
 
-  templates = gulp.src(tmpFiles.templates)
+  templates = gulp.src(paths.tmpFiles.templates)
     .pipe($.minifyHtml({
       empty: true,
       spare: true,
@@ -107,7 +74,7 @@ gulp.task('dist', ['styles', 'scripts', 'images', 'html'], function() {
 
   return eventStream.merge(components, templates)
     .pipe($.concat('component.js'))
-    .pipe(gulp.dest(distFiles.scripts));
+    .pipe(gulp.dest(path.distFiles.scripts));
 });
 
 gulp.task('default', [
