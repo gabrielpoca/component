@@ -19,7 +19,8 @@ module.exports = {
     scripts: base.src + '**/*.js',
     styles: base.src + '**/*.scss',
     images: base.src + '**/*.{png,jpg,svg}',
-    templates: base.src + '**/*.html'
+    templates: base.src + '**/*.html',
+    styleguideTemplates: base.src + '**/*.html.sg'
   },
 
   styleguideFiles: {

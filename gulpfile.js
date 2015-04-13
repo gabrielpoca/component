@@ -39,7 +39,8 @@ gulp.task('watch', function() {
   gulp.watch([
     paths.styleguideFiles.scripts,
     paths.styleguideFiles.templates,
-    paths.styleguideFiles.index
+    paths.styleguideFiles.index,
+    paths.appFiles.styleguideTemplates
   ], ['styleguide']);
 });
 
