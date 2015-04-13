@@ -1,5 +1,7 @@
 angular
-  .module('component')
+  .module('styleguide', [
+    'component'
+  ])
   .controller('TripsCtrl', TripsCtrl);
 
 function TripsCtrl() {
@@ -9,7 +11,7 @@ function TripsCtrl() {
     {
       description: 'RubyconfPT',
       img: 'https://pbs.twimg.com/profile_images/437683020003561474/Z5_SkyHh.jpeg',
-      amount: '3.00'
+      amount: '4.00'
     },
     {
       description: 'Codebits 2015',

@@ -1,28 +1,29 @@
-var basePaths = {
+var paths = {
   src: 'src/',
   dest: 'dist/',
   tmp: '.tmp/',
+  tmpStyleguide: '.tmp.styleguide/',
   styleguide: 'styleguide/'
 };
 
 var distFiles = {
-  images: basePaths.dest + 'img',
-  styles: basePaths.dest,
-  scripts: basePaths.dest
+  images: paths.dest + 'img',
+  styles: paths.dest,
+  scripts: paths.dest
 };
 
 var appFiles = {
-  scripts: basePaths.src + '**/*.js',
-  styles: basePaths.src + '**/*.scss',
-  images: basePaths.src + '**/*.{png,jpg,svg}',
-  templates: basePaths.src + '**/*.html'
+  scripts: paths.src + '**/*.js',
+  styles: paths.src + '**/*.scss',
+  images: paths.src + '**/*.{png,jpg,svg}',
+  templates: paths.src + '**/*.html'
 };
 
 var tmpFiles = {
-  scripts: basePaths.tmp + '**/*.js',
-  styles: basePaths.tmp + '*.css',
-  images: basePaths.tmp + 'img/**.{png,jpg,svg}',
-  templates: basePaths.tmp + '**/*.html'
+  scripts: paths.tmp + '**/*.js',
+  styles: paths.tmp + '*.css',
+  images: paths.tmp + 'img/**.{png,jpg,svg}',
+  templates: paths.tmp + '**/*.html'
 };
 
 var gulp = require('gulp');
@@ -32,28 +33,29 @@ var $ = require('gulp-load-plugins')({
   camelize: true
 });
 
-gulp.task('html', function() {
-  var sources = gulp.src(appFiles.scripts, {read: false});
-
-  return gulp.src([appFiles.templates].concat(['src/index.html']))
-    .pipe($.inject(sources, { relative: true }))
-    .pipe(gulp.dest(basePaths.tmp))
-    .pipe($.connect.reload());
-});
-
 gulp.task(
   'images', 
-  require('./gulp/images')(gulp, $, appFiles.images, basePaths.tmp)
+  require('./gulp/images')(gulp, $, appFiles.images, paths.tmp)
 );
 
 gulp.task(
   'scripts',
-  require('./gulp/scripts')(gulp, $, appFiles.scripts, basePaths.tmp)
+  require('./gulp/scripts')(gulp, $, appFiles.scripts, paths.tmp)
 );
 
 gulp.task(
   'styles',
-  require('./gulp/styles')(gulp, $, appFiles.styles, basePaths.tmp)
+  require('./gulp/styles')(gulp, $, appFiles.styles, paths.tmp)
+);
+
+gulp.task(
+  'html',
+  require('./gulp/html')(gulp, $, appFiles.templates, paths.tmp)
+);
+
+gulp.task(
+  'styleguide',
+  require('./gulp/styleguide')(gulp, $, appFiles.scripts, paths.styleguide, paths.tmpStyleguide)
 );
 
 gulp.task('watch', function() {
@@ -64,7 +66,7 @@ gulp.task('watch', function() {
 
 gulp.task('connect', function() {
   $.connect.server({
-    root: [basePaths.tmp, basePaths.styleguide, 'lib'],
+    root: [paths.tmp, paths.tmpStyleguide, 'lib'],
     livereload: true
   });
 });
@@ -96,4 +98,12 @@ gulp.task('dist', ['styles', 'scripts', 'images', 'html'], function() {
     .pipe(gulp.dest(distFiles.scripts));
 });
 
-gulp.task('default', ['styles', 'images', 'scripts', 'html', 'connect', 'watch']);
+gulp.task('default', [
+  'styles',
+  'images',
+  'scripts',
+  'html',
+  'styleguide',
+  'connect',
+  'watch'
+]);
