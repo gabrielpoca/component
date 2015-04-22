@@ -20,11 +20,13 @@ module.exports = {
     styles: base.src + '**/*.scss',
     images: base.src + '**/*.{png,jpg,svg}',
     templates: base.src + '**/*.html',
-    styleguideTemplates: base.src + '**/*.html.sg'
+    styleguideTemplates: base.src + '**/*.html.sg',
+    data: base.src + '**/*.json'
   },
 
   styleguideFiles: {
     scripts: base.styleguide + '**/*.js',
+    styles: base.styleguide + '**/*.scss',
     templates: base.styleguide + '**/*.html',
     index: base.styleguide + 'index.html'
   },

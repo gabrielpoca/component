@@ -1,6 +1,1 @@
-<ti-header-layout>
-  <div ng-controller="TripsCtrl as ctrl">
-    <ti-trips-list list="ctrl.trips"></ti-trips-list>
-  </div>
-  <ti-input-text></ti-input-text>
-</ti-header-layout>
+<ti-trips-list list="trips_list"></ti-trips-list>

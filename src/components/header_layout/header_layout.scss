@@ -1,14 +1,17 @@
 .HeaderLayout {
+  position: relative;
+  height: 100%;
+
   .HeaderLayout-header {
     height: 50px;
     width: 100%;
-    position: fixed;
+    position: absolute;
     top: 0;
     left: 0;
   }
 
   .HeaderLayout-content {
-    position: fixed;
+    position: absolute;
     width: 100%;
     top: 70px;
     left: 0;

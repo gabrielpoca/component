@@ -18,7 +18,7 @@ gulp.task(
 
 gulp.task(
   'styles',
-  require('./gulp/styles')(gulp, $, paths.appFiles.styles, paths.base.tmp)
+  require('./gulp/styles')(gulp, $, paths.appFiles.styles, paths.base.tmp, 'styles.css')
 );
 
 gulp.task(
