@@ -1,4 +1,6 @@
 var paths = require('./gulp/paths');
+var appFiles = appFiles;
+
 var gulp = require('gulp');
 var eventStream = require('event-stream');
 
@@ -6,41 +8,22 @@ var $ = require('gulp-load-plugins')({
   camelize: true
 });
 
-gulp.task(
-  'images', 
-  require('./gulp/images')(gulp, $, paths.appFiles.images, paths.base.tmp)
-);
-
-gulp.task(
-  'scripts',
-  require('./gulp/scripts')(gulp, $, paths.appFiles.scripts, paths.base.tmp)
-);
-
-gulp.task(
-  'styles',
-  require('./gulp/styles')(gulp, $, paths.appFiles.styles, paths.base.tmp, 'styles.css')
-);
-
-gulp.task(
-  'html',
-  require('./gulp/html')(gulp, $, paths.appFiles.templates, paths.base.tmp)
-);
-
-gulp.task(
-  'styleguide',
-  require('./gulp/styleguide')(gulp, $)
-);
+gulp.task('images', require('./gulp/images')(appFiles.images, paths.base.tmp));
+gulp.task('scripts', require('./gulp/scripts')(appFiles.scripts, paths.base.tmp));
+gulp.task('styles', require('./gulp/styles')(appFiles.styles, paths.base.tmp, 'styles.css'));
+gulp.task('html', require('./gulp/html')(appFiles.templates, paths.base.tmp));
+gulp.task('styleguide', require('./gulp/styleguide'));
 
 gulp.task('watch', function() {
-  gulp.watch([paths.appFiles.templates], ['html']);
-  gulp.watch([paths.appFiles.scripts], ['scripts']);
-  gulp.watch([paths.appFiles.styles], ['styles']);
+  gulp.watch([appFiles.templates], ['html']);
+  gulp.watch([appFiles.scripts], ['scripts']);
+  gulp.watch([appFiles.styles], ['styles']);
 
   gulp.watch([
     paths.styleguideFiles.scripts,
     paths.styleguideFiles.templates,
     paths.styleguideFiles.index,
-    paths.appFiles.styleguideTemplates
+    appFiles.styleguideTemplates
   ], ['styleguide']);
 });
 

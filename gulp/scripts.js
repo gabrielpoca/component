@@ -1,6 +1,11 @@
+var gulp = require('gulp');
+var $ = require('gulp-load-plugins')({
+  camelize: true
+});
+
 var handleError = require('./handle_error.js');
 
-module.exports = function(gulp, $, src, dest) {
+module.exports = function(src, dest) {
   return function() {
     return gulp.src(src)
       .pipe($.sourcemaps.init())

@@ -53,7 +53,7 @@
   "browser"       : true,     // Web Browser (window, document, etc)
   "devel"         : true,     // Development/debugging (alert, confirm, etc)
   "jasmine"       : false,    // Jasmine
-  "jquery"        : true,     // jQuery
+  "jquery"        : false,    // jQuery
   "mocha"         : true,     // Mocha
   "node"          : true,     // Node.js
   "nonstandard"   : false,    // Widely adopted globals (escape, unescape, etc)

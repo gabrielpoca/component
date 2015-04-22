@@ -1,3 +1,8 @@
+var gulp = require('gulp');
+var $ = require('gulp-load-plugins')({
+  camelize: true
+});
+
 var paths = require('./paths');
 
 var scripts = paths.styleguideFiles.scripts;
@@ -17,9 +22,9 @@ var transformData = function(filePath, file) {
   return '<div ng-init=\'' + fileName + '=' + file.contents.toString('utf8') + '\'></div>';
 };
 
-module.exports = function(gulp, $) {
-  var styleguideScritps = require('./scripts')(gulp, $, scripts, dest);
-  var styleguideStyles = require('./styles')(gulp, $, styles, dest, 'styleguide.styles.css');
+module.exports = function() {
+  var styleguideScritps = require('./scripts')(scripts, dest);
+  var styleguideStyles = require('./styles')(styles, dest, 'styleguide.styles.css');
 
   var styleguideTask = function() {
     var sources = gulp.src(paths.appFiles.scripts, {read: false});
